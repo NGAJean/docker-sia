@@ -20,7 +20,9 @@ ARG SIA_DIR="/sia"
 ARG SIA_DATA_DIR="/sia-data"
 ARG SIAD_DATA_DIR="/sia-data"
 
-RUN apt-get update && apt-get install -y mime-support logrotate
+RUN apt-get update && \
+    apt-get install -y mime-support logrotate tmpreaper && \
+    echo "17 7	* * *	root    /usr/sbin/tmpreaper 3d /tmp/." >> /etc/crontab
 
 # Workaround for backwards compatibility with old images, which hardcoded the
 # Sia data directory as /mnt/sia. Creates a symbolic link so that any previous

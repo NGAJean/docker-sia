@@ -9,7 +9,8 @@ WORKDIR /root
 RUN apt-get update && \
     apt-get -y dist-upgrade && \
     apt-get -y autoremove && \
-    apt-get -y install python3-pip sudo wget curl zip vim nano nload psmisc less mime-support logrotate && \
+    apt-get -y install python3-pip sudo wget curl zip vim nano nload psmisc less mime-support logrotate  tmpreaper && \
+    echo "17 7	* * *	root    /usr/sbin/tmpreaper 3d /tmp/." >> /etc/crontab && \
     apt-get clean && \
     wget -O- -nv https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s v1.30.0 && \
     pip3 install codespell && \
@@ -25,7 +26,7 @@ ARG SIA_DIR="/sia"
 ARG SIA_DATA_DIR="/sia-data"
 ARG SIAD_DATA_DIR="/sia-data"
 
-COPY ./debug/.vimrc ./debug/.bashrc scripts/*.sh ./
+COPY debug/.vimrc debug/.bashrc scripts/*.sh ./
 COPY scripts/logrotate-sia /etc/logrotate.d/sia
 
 ENV SIA_DATA_DIR "$SIA_DATA_DIR"
